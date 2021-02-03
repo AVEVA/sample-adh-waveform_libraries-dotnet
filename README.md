@@ -1,6 +1,6 @@
 # Sequential Data Store .NET Client Libraries Sample
 
-**Version:** 1.1.7
+**Version:** 1.1.8
 
 [![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/OCS/osisoft.sample-ocs-waveform-dotnet_libraries?repoName=osisoft%2Fsample-ocs-waveform-dotnet_libraries&branchName=master)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=2627&repoName=osisoft%2Fsample-ocs-waveform-dotnet_libraries&branchName=master)
 
@@ -10,7 +10,7 @@ The sample described in this section makes use of the OSIsoft Cloud Services Cli
 
 [SDS documentation](https://ocs-docs.osisoft.com/Content_Portal/Documentation/SequentialDataStore/Data_Store_and_SDS.html)
 
-Developed against DotNet 2.2.300.
+Developed against DotNet 5.0.
 
 ## Getting Started
 
@@ -328,7 +328,7 @@ await metadataService.DeleteTypeAsync(typeId);
 
 ---
 
-Tested against DotNet 2.2.105.
+Tested against DotNet 5.0.
 
 For the main OCS DotNet waveform samples page on master [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/master/docs/SDS_WAVEFORM_DOTNET_README.md)  
 For the main OCS waveform samples page on master [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/master/docs/SDS_WAVEFORM_README.md)  

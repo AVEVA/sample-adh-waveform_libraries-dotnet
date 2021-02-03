@@ -15,7 +15,7 @@ namespace SdsClientLibraries
     public static class Program
     {
         private static IConfiguration _configuration;
-        private static Exception _toThrow = null;
+        private static Exception _toThrow;
 
         public static void Main() => MainAsync().GetAwaiter().GetResult();
 
