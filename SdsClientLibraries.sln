@@ -9,13 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SdsClientLibrariesTests", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{03055F2D-BC17-4C83-AB2B-7A4774F9AD46}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		azure-pipelines.yml = azure-pipelines.yml
-		..\..\..\..\Directory.Build.props = ..\..\..\..\Directory.Build.props
-		..\..\..\..\Extensions.ruleset = ..\..\..\..\Extensions.ruleset
+		Directory.Build.props = Directory.Build.props
 		HISTORY.md = HISTORY.md
-		..\..\..\..\OSIsoft.ruleset = ..\..\..\..\OSIsoft.ruleset
 		polaris.yml = polaris.yml
 		README.md = README.md
+		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Global
