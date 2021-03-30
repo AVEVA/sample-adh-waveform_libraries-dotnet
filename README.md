@@ -2,7 +2,7 @@
 
 **Version:** 1.1.9
 
-[![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/OCS/osisoft.sample-ocs-waveform-dotnet_libraries?repoName=osisoft%2Fsample-ocs-waveform-dotnet_libraries&branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=2627&repoName=osisoft%2Fsample-ocs-waveform-dotnet_libraries&branchName=main)
+[![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/OCS/osisoft.sample-ocs-waveform_libraries-dotnet?repoName=osisoft%2Fsample-ocs-waveform_libraries-dotnet&branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=3094&repoName=osisoft%2Fsample-ocs-waveform_libraries-dotnet&branchName=main)
 
 ## Building a Client with the OCS Client Libraries
 
