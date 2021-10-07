@@ -32,7 +32,7 @@ namespace SdsClientLibraries
             var namespaceId = _configuration["NamespaceId"];
             var resource = _configuration["Resource"];
             var clientId = _configuration["ClientId"];
-            var clientKey = _configuration["ClientKey"];
+            var clientSecret = _configuration["ClientSecret"];
 
             // ==== Metadata IDs ====
             string streamId = "SampleStream";
@@ -50,7 +50,7 @@ namespace SdsClientLibraries
             
             // Step 1 
             // Get Sds Services to communicate with server
-            AuthenticationHandler authenticationHandler = new AuthenticationHandler(uriResource, clientId, clientKey);
+            AuthenticationHandler authenticationHandler = new AuthenticationHandler(uriResource, clientId, clientSecret);
             
             SdsService sdsService = new SdsService(new Uri(resource), null, HttpCompressionMethod.GZip, authenticationHandler);
             var metadataService = sdsService.GetMetadataService(tenantId, namespaceId);
