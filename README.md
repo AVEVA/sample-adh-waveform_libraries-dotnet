@@ -1,6 +1,6 @@
 # Sequential Data Store .NET Client Libraries Sample
 
-**Version:** 1.1.15
+**Version:** 1.1.16
 
 [![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/OCS/osisoft.sample-ocs-waveform_libraries-dotnet?repoName=osisoft%2Fsample-ocs-waveform_libraries-dotnet&branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=3094&repoName=osisoft%2Fsample-ocs-waveform_libraries-dotnet&branchName=main)
 
@@ -330,7 +330,7 @@ await metadataService.DeleteTypeAsync(typeId);
 
 Tested against DotNet 5.0.
 
-For the main OCS DotNet waveform samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM_DOTNET_README.md)  
-For the main OCS waveform samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM_README.md)  
+For the main OCS DotNet waveform samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM_DOTNET.md)  
+For the main OCS waveform samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM.md)  
 For the main OCS samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS)  
 For the main OSIsoft samples page [ReadMe](https://github.com/osisoft/OSI-Samples)
