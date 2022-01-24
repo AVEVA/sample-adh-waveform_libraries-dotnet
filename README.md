@@ -9,7 +9,7 @@
 
 ## Building a Client with the ADH Client Libraries
 
-The sample described in this section makes use of the AVEVA Data Hub Client Libraries. When working in .NET, it is recommended that you use theADH Client Libraries metapackage, OSIsoft.OCSClients. The metapackage is a NuGet package available from [https://api.nuget.org/v3/index.json](https://api.nuget.org/v3/index.json). The libraries offer a framework of classes that make client development easier.
+The sample described in this section makes use of the AVEVA Data Hub Client Libraries. When working in .NET, it is recommended that you use the ADH Client Libraries metapackage, OSIsoft.OCSClients. The metapackage is a NuGet package available from [https://api.nuget.org/v3/index.json](https://api.nuget.org/v3/index.json). The libraries offer a framework of classes that make client development easier.
 
 [SDS documentation](https://ocs-docs.osisoft.com/Content_Portal/Documentation/SequentialDataStore/Data_Store_and_SDS.html)
 
