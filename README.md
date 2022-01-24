@@ -5,7 +5,7 @@
 
 **Version:** 1.1.17
 
-[![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/OCS/osisoft.sample-ocs-waveform_libraries-dotnet?repoName=osisoft%2Fsample-ocs-waveform_libraries-dotnet&branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=3094&repoName=osisoft%2Fsample-ocs-waveform_libraries-dotnet&branchName=main)
+[![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/ADH/aveva.sample-adh-waveform_libraries-dotnet?branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=3094&branchName=main)
 
 ## Building a Client with the ADH Client Libraries
 
