@@ -35,16 +35,16 @@ namespace SdsClientLibraries
             var clientSecret = _configuration["ClientSecret"];
 
             // ==== Metadata IDs ====
-            string streamId = "SampleStream";
-            string streamIdSecondary = "SampleStream_Secondary";
-            string streamIdCompound = "SampleStream_Compound";
+            string streamId = "SampleStream_Dotnet";
+            string streamIdSecondary = "SampleStream_Secondary_Dotnet";
+            string streamIdCompound = "SampleStream_Compound_Dotnet";
 
-            string typeId = "SampleType";
-            string targetTypeId = "SampleType_Target";
-            string targetIntTypeId = "SampleType_TargetInt";
-            string autoStreamViewId = "SampleAutoStreamView";
-            string manualStreamViewId = "SampleManualStreamView";
-            string compoundTypeId = "SampleType_Compound";
+            string typeId = "SampleType_Dotnet";
+            string targetTypeId = "SampleType_Target_Dotnet";
+            string targetIntTypeId = "SampleType_TargetInt_Dotnet";
+            string autoStreamViewId = "SampleAutoStreamView_Dotnet";
+            string manualStreamViewId = "SampleManualStreamView_Dotnet";
+            string compoundTypeId = "SampleType_Compound_Dotnet";
 
             var uriResource = new Uri(resource);
             
