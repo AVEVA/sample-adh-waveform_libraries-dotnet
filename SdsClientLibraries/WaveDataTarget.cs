@@ -26,7 +26,7 @@ namespace SdsClientLibraries
 
         public override string ToString()
         {
-            var builder = new StringBuilder();
+            StringBuilder builder = new ();
             builder.Append($"OrderTarget: {OrderTarget}");
             builder.Append($", RadiansTarget: {RadiansTarget}");
             builder.Append($", TauTarget: {TauTarget}");

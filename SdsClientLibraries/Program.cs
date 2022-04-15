@@ -28,11 +28,11 @@ namespace SdsClientLibraries
             _configuration = builder.Build();
 
             // ==== Client constants ====
-            var tenantId = _configuration["TenantId"];
-            var namespaceId = _configuration["NamespaceId"];
-            var resource = _configuration["Resource"];
-            var clientId = _configuration["ClientId"];
-            var clientSecret = _configuration["ClientSecret"];
+            string tenantId = _configuration["TenantId"];
+            string namespaceId = _configuration["NamespaceId"];
+            string resource = _configuration["Resource"];
+            string clientId = _configuration["ClientId"];
+            string clientSecret = _configuration["ClientSecret"];
 
             // ==== Metadata IDs ====
             string streamId = "SampleStream_Dotnet";
@@ -46,16 +46,16 @@ namespace SdsClientLibraries
             string manualStreamViewId = "SampleManualStreamView_Dotnet";
             string compoundTypeId = "SampleType_Compound_Dotnet";
 
-            var uriResource = new Uri(resource);
+            Uri uriResource = new (resource);
             
             // Step 1 
             // Get Sds Services to communicate with server
-            AuthenticationHandler authenticationHandler = new AuthenticationHandler(uriResource, clientId, clientSecret);
+            AuthenticationHandler authenticationHandler = new (uriResource, clientId, clientSecret);
             
-            SdsService sdsService = new SdsService(new Uri(resource), null, HttpCompressionMethod.GZip, authenticationHandler);
-            var metadataService = sdsService.GetMetadataService(tenantId, namespaceId);
-            var dataService = sdsService.GetDataService(tenantId, namespaceId);
-            var tableService = sdsService.GetTableService(tenantId, namespaceId);
+            SdsService sdsService = new (new Uri(resource), null, HttpCompressionMethod.GZip, authenticationHandler);
+            ISdsMetadataService metadataService = sdsService.GetMetadataService(tenantId, namespaceId);
+            ISdsDataService dataService = sdsService.GetDataService(tenantId, namespaceId);
+            ISdsTableService tableService = sdsService.GetTableService(tenantId, namespaceId);
 
             Console.WriteLine(@"-------------------------------------------------------------");
             Console.WriteLine(@"  _________    .___           _______  ______________________");
@@ -81,7 +81,7 @@ namespace SdsClientLibraries
                 // Step 3
                 // create an SdsStream
                 Console.WriteLine("Creating an SdsStream");
-                var stream = new SdsStream
+                SdsStream stream = new ()
                 {
                     Id = streamId,
                     Name = "Wave Data Sample",
@@ -95,12 +95,12 @@ namespace SdsClientLibraries
                 Console.WriteLine("Inserting data");
 
                 // insert a single event
-                var wave = GetWave(0, 2);
+                WaveData wave = GetWave(0, 2);
                 await dataService.InsertValueAsync(stream.Id, wave).ConfigureAwait(false);
 
                 // insert a list of events
-                var waves = new List<WaveData>();
-                for (var i = 2; i <= 18; i += 2)
+                List<WaveData> waves = new ();
+                for (int i = 2; i <= 18; i += 2)
                 {
                     waves.Add(GetWave(i, 2));
                 }
@@ -110,15 +110,15 @@ namespace SdsClientLibraries
                 // Step 5
                 // get last event
                 Console.WriteLine("Getting latest event");
-                var latest = await dataService.GetLastValueAsync<WaveData>(streamId).ConfigureAwait(false);
+                WaveData latest = await dataService.GetLastValueAsync<WaveData>(streamId).ConfigureAwait(false);
                 Console.WriteLine(latest.ToString());
                 Console.WriteLine();
 
                 // get all events
                 Console.WriteLine("Getting all events");
-                var allEvents = (List<WaveData>)await dataService.GetWindowValuesAsync<WaveData>(streamId, "0", "180").ConfigureAwait(false);
+                List<WaveData> allEvents = (List<WaveData>)await dataService.GetWindowValuesAsync<WaveData>(streamId, "0", "180").ConfigureAwait(false);
                 Console.WriteLine($"Total events found: {allEvents.Count}");
-                foreach (var evnt in allEvents)
+                foreach (WaveData evnt in allEvents)
                 {
                     Console.WriteLine(evnt.ToString());
                 }
@@ -127,10 +127,10 @@ namespace SdsClientLibraries
 
                 // Step 6
                 // getting all events in table format with headers
-                var tableEvents = await tableService.GetWindowValuesAsync(stream.Id, "0", "180").ConfigureAwait(false);
+                SdsTable tableEvents = await tableService.GetWindowValuesAsync(stream.Id, "0", "180").ConfigureAwait(false);
 
                 Console.WriteLine("Getting table events");
-                foreach (var evnt in tableEvents.Rows)
+                foreach (IList<object> evnt in tableEvents.Rows)
                 {
                     Console.WriteLine(string.Join(",", evnt.ToArray()));
                 }
@@ -142,11 +142,11 @@ namespace SdsClientLibraries
                 Console.WriteLine("Updating events");
 
                 // update one event
-                var updatedWave = UpdateWave(allEvents.First(), 4);
+                WaveData updatedWave = UpdateWave(allEvents.First(), 4);
                 await dataService.UpdateValueAsync(stream.Id, updatedWave).ConfigureAwait(false);
 
                 // update all events, adding ten more
-                var updatedCollection = new List<WaveData>();
+                List<WaveData> updatedCollection = new ();
                 for (int i = 2; i < 40; i += 2)
                 {
                     updatedCollection.Add(GetWave(i, 4));
@@ -159,7 +159,7 @@ namespace SdsClientLibraries
                 Console.WriteLine("Getting updated events");
                 Console.WriteLine($"Total events found: {allEvents.Count}");
 
-                foreach (var evnt in allEvents)
+                foreach (WaveData evnt in allEvents)
                 {
                     Console.WriteLine(evnt.ToString());
                 }
@@ -171,7 +171,7 @@ namespace SdsClientLibraries
                 Console.WriteLine("Replacing events");
 
                 // replace one event
-                var replaceEvent = UpdateWave(allEvents.First(), multiplier: 5);
+                WaveData replaceEvent = UpdateWave(allEvents.First(), multiplier: 5);
 
                 await dataService.ReplaceValueAsync<WaveData>(streamId, replaceEvent).ConfigureAwait(false);
 
@@ -184,9 +184,9 @@ namespace SdsClientLibraries
                 await dataService.ReplaceValuesAsync<WaveData>(streamId, allEvents).ConfigureAwait(false);
 
                 Console.WriteLine("Getting replaced events");
-                var replacedEvents = (List<WaveData>)await dataService.GetWindowValuesAsync<WaveData>(streamId, "0", "180").ConfigureAwait(false);
+                List<WaveData> replacedEvents = (List<WaveData>)await dataService.GetWindowValuesAsync<WaveData>(streamId, "0", "180").ConfigureAwait(false);
                 Console.WriteLine($"Total events found: {replacedEvents.Count}");
-                foreach (var evnt in replacedEvents)
+                foreach (WaveData evnt in replacedEvents)
                 {
                     Console.WriteLine(evnt.ToString());
                 }
@@ -199,20 +199,20 @@ namespace SdsClientLibraries
                 Console.WriteLine();
 
                 // We will retrieve three events using the default behavior, Continuous
-                var retrieved = await dataService
+                IEnumerable<WaveData> retrieved = await dataService
                     .GetRangeValuesAsync<WaveData>(stream.Id, "1", 3, SdsBoundaryType.ExactOrCalculated).ConfigureAwait(false);
                 Console.WriteLine("Default (Continuous) requesting data starting at index location '1', where we have not entered data, SDS will interpolate a value for this property and then return entered values:");
-                foreach (var value in retrieved)
+                foreach (WaveData value in retrieved)
                 {
                     Console.WriteLine(value.ToString());
                 }
 
                 Console.WriteLine();
 
-                var retrievedInterpolated = await dataService
+                IEnumerable<WaveData> retrievedInterpolated = await dataService
                     .GetValuesAsync<WaveData>(stream.Id, "5", "32", 4).ConfigureAwait(false);
                 Console.WriteLine("SDS will interpolate a value for each index asked for (5,14,23,32):");
-                foreach (var value in retrievedInterpolated)
+                foreach (WaveData value in retrievedInterpolated)
                 {
                     Console.WriteLine(value.ToString());
                 }
@@ -221,9 +221,9 @@ namespace SdsClientLibraries
 
                 // Step 10
                 // We will retrieve events filtered to only get the ones where the radians are less than 50.  Note, this can be done on index properties too.
-                var retrievedInterpolatedFiltered = await dataService.GetWindowFilteredValuesAsync<WaveData>(stream.Id, "0", "180", SdsBoundaryType.ExactOrCalculated, "Radians lt 50").ConfigureAwait(false);
+                IEnumerable<WaveData> retrievedInterpolatedFiltered = await dataService.GetWindowFilteredValuesAsync<WaveData>(stream.Id, "0", "180", SdsBoundaryType.ExactOrCalculated, "Radians lt 50").ConfigureAwait(false);
                 Console.WriteLine("SDS will only return the values where the radians are less than 50:");
-                foreach (var value in retrievedInterpolatedFiltered)
+                foreach (WaveData value in retrievedInterpolatedFiltered)
                 {
                     Console.WriteLine(value.ToString());
                 }
@@ -234,9 +234,9 @@ namespace SdsClientLibraries
                 // We will retrieve a sample of our data
                 Console.WriteLine("SDS can return a sample of your data population to show trends.");
                 Console.WriteLine("Getting Sampled Values:");
-                var sampledValues = await dataService.GetSampledValuesAsync<WaveData>(stream.Id, "0",
+                IEnumerable<WaveData> sampledValues = await dataService.GetSampledValuesAsync<WaveData>(stream.Id, "0",
                     "40", 4, new[] { nameof(WaveData.Sin) }).ConfigureAwait(false);
-                foreach (var sample in sampledValues)
+                foreach (WaveData sample in sampledValues)
                 {
                     Console.WriteLine(sample);
                 }
@@ -245,12 +245,12 @@ namespace SdsClientLibraries
 
                 // Step 12
                 // create a Discrete stream PropertyOverride indicating that we do not want Sds to calculate a value for Radians and update our stream 
-                var propertyOverride = new SdsStreamPropertyOverride()
+                SdsStreamPropertyOverride propertyOverride = new ()
                 {
                     SdsTypePropertyId = "Radians",
                     InterpolationMode = SdsInterpolationMode.Discrete,
                 };
-                var propertyOverrides = new List<SdsStreamPropertyOverride>() { propertyOverride };
+                List<SdsStreamPropertyOverride> propertyOverrides = new () { propertyOverride };
 
                 // update the stream
                 stream.PropertyOverrides = propertyOverrides;
@@ -261,7 +261,7 @@ namespace SdsClientLibraries
                 Console.WriteLine("We can override this behavior on a property by property basis, here we override the Radians property instructing Sds not to interpolate.");
                 Console.WriteLine("SDS will now return the default value for the data type:");
 
-                foreach (var value in retrieved)
+                foreach (WaveData value in retrieved)
                 {
                     Console.WriteLine(value.ToString());
                 }
@@ -273,17 +273,17 @@ namespace SdsClientLibraries
                 Console.WriteLine("SdsStreamViews");
 
                 // create target types
-                var targetType = SdsTypeBuilder.CreateSdsType<WaveDataTarget>();
+                SdsType targetType = SdsTypeBuilder.CreateSdsType<WaveDataTarget>();
                 targetType.Id = targetTypeId;
 
-                var targetIntType = SdsTypeBuilder.CreateSdsType<WaveDataInteger>();
+                SdsType targetIntType = SdsTypeBuilder.CreateSdsType<WaveDataInteger>();
                 targetIntType.Id = targetIntTypeId;
 
                 await metadataService.GetOrCreateTypeAsync(targetType).ConfigureAwait(false);
                 await metadataService.GetOrCreateTypeAsync(targetIntType).ConfigureAwait(false);
 
                 // create StreamViews
-                var autoStreamView = new SdsStreamView()
+                SdsStreamView autoStreamView = new ()
                 {
                     Id = autoStreamViewId,
                     SourceTypeId = typeId,
@@ -291,12 +291,12 @@ namespace SdsClientLibraries
                 };
 
                 // create explicit mappings 
-                var vp1 = new SdsStreamViewProperty() { SourceId = "Order", TargetId = "OrderTarget" };
-                var vp2 = new SdsStreamViewProperty() { SourceId = "Sin", TargetId = "SinInt" };
-                var vp3 = new SdsStreamViewProperty() { SourceId = "Cos", TargetId = "CosInt" };
-                var vp4 = new SdsStreamViewProperty() { SourceId = "Tan", TargetId = "TanInt" };
+                SdsStreamViewProperty vp1 = new () { SourceId = "Order", TargetId = "OrderTarget" };
+                SdsStreamViewProperty vp2 = new () { SourceId = "Sin", TargetId = "SinInt" };
+                SdsStreamViewProperty vp3 = new () { SourceId = "Cos", TargetId = "CosInt" };
+                SdsStreamViewProperty vp4 = new () { SourceId = "Tan", TargetId = "TanInt" };
 
-                var manualStreamView = new SdsStreamView()
+                SdsStreamView manualStreamView = new ()
                 {
                     Id = manualStreamViewId,
                     SourceTypeId = typeId,
@@ -308,7 +308,7 @@ namespace SdsClientLibraries
                 await metadataService.CreateOrUpdateStreamViewAsync(manualStreamView).ConfigureAwait(false);
 
                 Console.WriteLine("Here is some of our data as it is stored on the server:");
-                foreach (var evnt in retrieved)
+                foreach (WaveData evnt in retrieved)
                 {
                     Console.WriteLine($"Sin: {evnt.Sin}, Cos: {evnt.Cos}, Tan {evnt.Tan}");
                 }
@@ -316,11 +316,11 @@ namespace SdsClientLibraries
                 Console.WriteLine();
 
                 // get autoStreamView data
-                var autoStreamViewData = await dataService.GetRangeValuesAsync<WaveDataTarget>(stream.Id, "1", 3, SdsBoundaryType.ExactOrCalculated, autoStreamViewId).ConfigureAwait(false);
+                IEnumerable<WaveDataTarget> autoStreamViewData = await dataService.GetRangeValuesAsync<WaveDataTarget>(stream.Id, "1", 3, SdsBoundaryType.ExactOrCalculated, autoStreamViewId).ConfigureAwait(false);
 
                 Console.WriteLine("Specifying a StreamView with an SdsType of the same shape returns values that are automatically mapped to the target SdsType's properties:");
 
-                foreach (var value in autoStreamViewData)
+                foreach (WaveDataTarget value in autoStreamViewData)
                 {
                     Console.WriteLine($"SinTarget: {value.SinTarget} CosTarget: {value.CosTarget} TanTarget: {value.TanTarget}");
                 }
@@ -329,9 +329,9 @@ namespace SdsClientLibraries
 
                 // get manualStreamView data
                 Console.WriteLine("SdsStreamViews can also convert certain types of data, here we return integers where the original values were doubles:");
-                var manualStreamViewData = await dataService.GetRangeValuesAsync<WaveDataInteger>(stream.Id, "1", 3, SdsBoundaryType.ExactOrCalculated, manualStreamViewId).ConfigureAwait(false);
+                IEnumerable<WaveDataInteger> manualStreamViewData = await dataService.GetRangeValuesAsync<WaveDataInteger>(stream.Id, "1", 3, SdsBoundaryType.ExactOrCalculated, manualStreamViewId).ConfigureAwait(false);
 
-                foreach (var value in manualStreamViewData)
+                foreach (WaveDataInteger value in manualStreamViewData)
                 {
                     Console.WriteLine($"SinInt: {value.SinInt} CosInt: {value.CosInt} TanInt: {value.TanInt}");
                 }
@@ -340,23 +340,23 @@ namespace SdsClientLibraries
 
                 // get SdsStreamViewMap
                 Console.WriteLine("We can query SDS to return the SdsStreamViewMap for our SdsStreamView, here is the one generated automatically:");
-                var autoStreamViewMap = await metadataService.GetStreamViewMapAsync(autoStreamViewId).ConfigureAwait(false);
+                SdsStreamViewMap autoStreamViewMap = await metadataService.GetStreamViewMapAsync(autoStreamViewId).ConfigureAwait(false);
                 PrintStreamViewMapProperties(autoStreamViewMap);
 
                 Console.WriteLine("Here is our explicit mapping, note SdsStreamViewMap will return all properties of the Source Type, even those without a corresponding Target property:");
-                var manualStreamViewMap = await metadataService.GetStreamViewMapAsync(manualStreamViewId).ConfigureAwait(false);
+                SdsStreamViewMap manualStreamViewMap = await metadataService.GetStreamViewMapAsync(manualStreamViewId).ConfigureAwait(false);
                 PrintStreamViewMapProperties(manualStreamViewMap);
 
                 // Step 14
                 // Update Stream Type based on SdsStreamView
                 Console.WriteLine("We will now update the stream type based on the stream view");
 
-                var firstVal = await dataService.GetFirstValueAsync<WaveData>(stream.Id).ConfigureAwait(false);
+                WaveData firstVal = await dataService.GetFirstValueAsync<WaveData>(stream.Id).ConfigureAwait(false);
 
                 await metadataService.UpdateStreamTypeAsync(stream.Id, autoStreamViewId).ConfigureAwait(false);
-                var newStream = await metadataService.GetStreamAsync(stream.Id).ConfigureAwait(false);
+                SdsStream newStream = await metadataService.GetStreamAsync(stream.Id).ConfigureAwait(false);
 
-                var firstValUpdated = await dataService.GetFirstValueAsync<WaveDataTarget>(stream.Id).ConfigureAwait(false);
+                WaveDataTarget firstValUpdated = await dataService.GetFirstValueAsync<WaveDataTarget>(stream.Id).ConfigureAwait(false);
 
                 Console.WriteLine($"The new type id {newStream.TypeId} compared to the original one {stream.TypeId}.");
                 Console.WriteLine($"The new type value {firstValUpdated} compared to the original one {firstVal}.");
@@ -364,8 +364,8 @@ namespace SdsClientLibraries
 
                 // Step 15
                 // Show filtering on Type, works the same as filtering on Streams
-                var types = await metadataService.GetTypesAsync().ConfigureAwait(false);
-                var typesFiltered = await metadataService.GetTypesAsync("Id:*Target*").ConfigureAwait(false);
+                IEnumerable<SdsType> types = await metadataService.GetTypesAsync().ConfigureAwait(false);
+                IEnumerable<SdsType> typesFiltered = await metadataService.GetTypesAsync("Id:*Target*").ConfigureAwait(false);
 
                 Console.WriteLine($"The number of types returned without filtering: {types.Count()}.  With filtering {typesFiltered.Count()}.");
                 Console.WriteLine();
@@ -373,8 +373,8 @@ namespace SdsClientLibraries
                 // Step 16
                 // tags and metadata
                 Console.WriteLine("Let's add some Tags and Metadata to our stream:");
-                var tags = new List<string> { "waves", "periodic", "2018", "validated" };
-                var metadata = new Dictionary<string, string>() { { "Region", "North America" }, { "Country", "Canada" }, { "Province", "Quebec" } };
+                List<string> tags = new () { "waves", "periodic", "2018", "validated" };
+                Dictionary<string, string> metadata = new () { { "Region", "North America" }, { "Country", "Canada" }, { "Province", "Quebec" } };
 
                 await metadataService.UpdateStreamTagsAsync(streamId, tags).ConfigureAwait(false);
                 await metadataService.UpdateStreamMetadataAsync(streamId, metadata).ConfigureAwait(false);
@@ -383,7 +383,7 @@ namespace SdsClientLibraries
 
                 Console.WriteLine();
                 Console.WriteLine($"Tags now associated with {streamId}:");
-                foreach (var tag in tags)
+                foreach (string tag in tags)
                 {
                     Console.WriteLine(tag);
                 }
@@ -398,7 +398,7 @@ namespace SdsClientLibraries
                 // Step 17
                 // update metadata
                 Console.WriteLine("Let's make some changes to the Metadata on our stream:");
-                var patch = new MetadataPatchDocument();
+                MetadataPatchDocument patch = new ();
                 patch.Remove("Region");
                 patch.Replace("Province", "Ontario");
                 patch.Add("City", "Toronto");
@@ -433,12 +433,12 @@ namespace SdsClientLibraries
                 // Adding a new stream with a secondary index.
                 Console.WriteLine("Adding a stream with a secondary index.");
 
-                SdsStreamIndex measurementIndex = new SdsStreamIndex()
+                SdsStreamIndex measurementIndex = new ()
                 {
                     SdsTypePropertyId = type.Properties.First(p => p.Id.Equals("Radians", StringComparison.OrdinalIgnoreCase)).Id,
                 };
 
-                SdsStream secondary = new SdsStream()
+                SdsStream secondary = new ()
                 {
                     Id = streamIdSecondary,
                     TypeId = type.Id,
@@ -458,7 +458,7 @@ namespace SdsClientLibraries
                 stream = await metadataService.GetStreamAsync(stream.Id).ConfigureAwait(false);
                 type = await metadataService.GetTypeAsync(stream.TypeId).ConfigureAwait(false);
 
-                SdsStreamIndex measurementTargetIndex = new SdsStreamIndex()
+                SdsStreamIndex measurementTargetIndex = new ()
                 {
                     SdsTypePropertyId = type.Properties.First(p => p.Id.Equals("RadiansTarget", StringComparison.OrdinalIgnoreCase)).Id,
                 };
@@ -485,7 +485,7 @@ namespace SdsClientLibraries
 
                 // create an SdsStream
                 Console.WriteLine("Creating an SdsStream off of type with compound index");
-                var streamCompound = new SdsStream
+                SdsStream streamCompound = new ()
                 {
                     Id = streamIdCompound,
                     Name = "Wave Data Sample",
@@ -504,10 +504,10 @@ namespace SdsClientLibraries
                 await dataService.InsertValueAsync(streamCompound.Id, GetWaveMultiplier(10, 8)).ConfigureAwait(false);
                 await dataService.InsertValueAsync(streamCompound.Id, GetWaveMultiplier(10, 10)).ConfigureAwait(false);
 
-                var latestCompound = await dataService.GetLastValueAsync<WaveDataCompound>(streamCompound.Id).ConfigureAwait(false);
-                var firstCompound = await dataService.GetFirstValueAsync<WaveDataCompound>(streamCompound.Id).ConfigureAwait(false);
+                WaveDataCompound latestCompound = await dataService.GetLastValueAsync<WaveDataCompound>(streamCompound.Id).ConfigureAwait(false);
+                WaveDataCompound firstCompound = await dataService.GetFirstValueAsync<WaveDataCompound>(streamCompound.Id).ConfigureAwait(false);
 
-                var data = await dataService.GetWindowValuesAsync<WaveDataCompound, int, int>(streamCompound.Id, Tuple.Create(2, 1), Tuple.Create(10, 8)).ConfigureAwait(false);
+                IEnumerable<WaveDataCompound> data = await dataService.GetWindowValuesAsync<WaveDataCompound, int, int>(streamCompound.Id, Tuple.Create(2, 1), Tuple.Create(10, 8)).ConfigureAwait(false);
 
                 Console.WriteLine($"First data: {firstCompound}.  Latest data: {latestCompound}.");
 
@@ -515,7 +515,7 @@ namespace SdsClientLibraries
 
                 Console.WriteLine("Window Data:");
 
-                foreach (var evnt in data)
+                foreach (WaveDataCompound evnt in data)
                 {
                     Console.WriteLine(evnt.ToString());
                 }
@@ -578,7 +578,7 @@ namespace SdsClientLibraries
 
         private static void PrintStreamViewMapProperties(SdsStreamViewMap sdsStreamViewMap)
         {
-            foreach (var prop in sdsStreamViewMap.Properties)
+            foreach (SdsStreamViewMapProperty prop in sdsStreamViewMap.Properties)
             {
                 if (prop.TargetId != null)
                 {
@@ -595,7 +595,7 @@ namespace SdsClientLibraries
 
         private static WaveData GetWave(int order, double multiplier)
         {
-            var radians = order * (Math.PI / 32);
+            double radians = order * (Math.PI / 32);
 
             return new WaveData
             {
@@ -626,7 +626,7 @@ namespace SdsClientLibraries
 
         private static WaveDataCompound GetWaveMultiplier(int order, int multiplier)
         {
-            var radians = order * (Math.PI / 32);
+            double radians = order * (Math.PI / 32);
 
             return new WaveDataCompound
             {
