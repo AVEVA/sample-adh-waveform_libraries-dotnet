@@ -29,7 +29,7 @@ namespace SdsClientLibraries
 
         public override string ToString()
         {
-            var builder = new StringBuilder();
+            StringBuilder builder = new ();
             builder.Append($"Order: {Order}");
             builder.Append($", Multiplier: {Multiplier}");
             builder.Append($", Radians: {Radians}");
