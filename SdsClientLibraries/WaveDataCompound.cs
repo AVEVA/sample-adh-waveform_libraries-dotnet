@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using OSIsoft.Data;
 
 namespace SdsClientLibraries
@@ -29,17 +30,19 @@ namespace SdsClientLibraries
 
         public override string ToString()
         {
+            CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+
             StringBuilder builder = new ();
-            builder.Append($"Order: {Order}");
-            builder.Append($", Multiplier: {Multiplier}");
-            builder.Append($", Radians: {Radians}");
-            builder.Append($", Tau: {Tau}");
-            builder.Append($", Sin: {Sin}");
-            builder.Append($", Cos: {Cos}");
-            builder.Append($", Tan: {Tan}");
-            builder.Append($", Sinh: {Sinh}");
-            builder.Append($", Cosh: {Cosh}");
-            builder.Append($", Tanh: {Tanh}");
+            builder.Append(cultureInfo, $"Order: {Order}");
+            builder.Append(cultureInfo, $", Multiplier: {Multiplier}");
+            builder.Append(cultureInfo, $", Radians: {Radians}");
+            builder.Append(cultureInfo, $", Tau: {Tau}");
+            builder.Append(cultureInfo, $", Sin: {Sin}");
+            builder.Append(cultureInfo, $", Cos: {Cos}");
+            builder.Append(cultureInfo, $", Tan: {Tan}");
+            builder.Append(cultureInfo, $", Sinh: {Sinh}");
+            builder.Append(cultureInfo, $", Cosh: {Cosh}");
+            builder.Append(cultureInfo, $", Tanh: {Tanh}");
             return builder.ToString();
         }
     }

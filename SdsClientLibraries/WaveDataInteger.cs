@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using OSIsoft.Data;
 
 namespace SdsClientLibraries
@@ -16,11 +17,13 @@ namespace SdsClientLibraries
 
         public override string ToString()
         {
+            CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+
             StringBuilder builder = new ();
-            builder.Append($"OrderTarget: {OrderTarget}");
-            builder.Append($", SinInt: {SinInt}");
-            builder.Append($", CosInt: {CosInt}");
-            builder.Append($", TanInt: {TanInt}");
+            builder.Append(cultureInfo, $"OrderTarget: {OrderTarget}");
+            builder.Append(cultureInfo, $", SinInt: {SinInt}");
+            builder.Append(cultureInfo, $", CosInt: {CosInt}");
+            builder.Append(cultureInfo, $", TanInt: {TanInt}");
             return builder.ToString();
         }
     }

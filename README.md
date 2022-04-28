@@ -3,7 +3,7 @@
 | :loudspeaker: **Notice**: Samples have been updated to reflect that they work on AVEVA Data Hub.  The samples also work on OSIsoft Cloud Services unless otherwise noted. |
 | -----------------------------------------------------------------------------------------------|  
 
-**Version:** 1.1.21
+**Version:** 1.2.0
 
 [![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/ADH/aveva.sample-adh-waveform_libraries-dotnet?branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=3094&branchName=main)
 
@@ -13,7 +13,7 @@ The sample described in this section makes use of the AVEVA Data Hub Client Libr
 
 [SDS documentation](https://ocs-docs.osisoft.com/Content_Portal/Documentation/SequentialDataStore/Data_Store_and_SDS.html)
 
-Developed against DotNet 5.0.
+Developed against DotNet 6.0.
 
 ## Getting Started
 
@@ -331,7 +331,7 @@ await metadataService.DeleteTypeAsync(typeId);
 
 ---
 
-Tested against DotNet 5.0.
+Tested against DotNet 6.0.
 
 For the main ADH DotNet waveform samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM_DOTNET.md)  
 For the main ADH waveform samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM.md)  
