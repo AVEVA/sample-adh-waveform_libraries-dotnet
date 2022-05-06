@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using OSIsoft.Data;
 
 namespace SdsClientLibraries
@@ -26,16 +27,18 @@ namespace SdsClientLibraries
 
         public override string ToString()
         {
+            CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+
             StringBuilder builder = new ();
-            builder.Append($"OrderTarget: {OrderTarget}");
-            builder.Append($", RadiansTarget: {RadiansTarget}");
-            builder.Append($", TauTarget: {TauTarget}");
-            builder.Append($", SinTarget: {SinTarget}");
-            builder.Append($", CosTarget: {CosTarget}");
-            builder.Append($", TanTarget: {TanTarget}");
-            builder.Append($", SinhTarget: {SinhTarget}");
-            builder.Append($", CoshTarget: {CoshTarget}");
-            builder.Append($", TanhTarget: {TanhTarget}");
+            builder.Append(cultureInfo, $"OrderTarget: {OrderTarget}");
+            builder.Append(cultureInfo, $", RadiansTarget: {RadiansTarget}");
+            builder.Append(cultureInfo, $", TauTarget: {TauTarget}");
+            builder.Append(cultureInfo, $", SinTarget: {SinTarget}");
+            builder.Append(cultureInfo, $", CosTarget: {CosTarget}");
+            builder.Append(cultureInfo, $", TanTarget: {TanTarget}");
+            builder.Append(cultureInfo, $", SinhTarget: {SinhTarget}");
+            builder.Append(cultureInfo, $", CoshTarget: {CoshTarget}");
+            builder.Append(cultureInfo, $", TanhTarget: {TanhTarget}");
             return builder.ToString();
         }
     }
