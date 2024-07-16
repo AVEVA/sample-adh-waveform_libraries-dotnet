@@ -2,13 +2,13 @@
 
 **Version:** 1.2.4
 
-[![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/ADH/aveva.sample-adh-waveform_libraries-dotnet?branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=3094&branchName=main)
+[![Build Status](https://dev.azure.com/AVEVA-VSTS/Cloud%20Platform/_apis/build/status%2Fproduct-readiness%2FADH%2FAVEVA.sample-adh-waveform_libraries-dotnet?repoName=AVEVA%2Fsample-adh-waveform_libraries-dotnet&branchName=main)](https://dev.azure.com/AVEVA-VSTS/Cloud%20Platform/_build/latest?definitionId=16148&repoName=AVEVA%2Fsample-adh-waveform_libraries-dotnet&branchName=main)
 
-## Building a Client with the ADH Client Libraries
+## Building a Client with the Cds Client Libraries
 
-The sample described in this section makes use of the AVEVA Data Hub Client Libraries. When working in .NET, it is recommended that you use the ADH Client Libraries metapackage, OSIsoft.OCSClients. The metapackage is a NuGet package available from [https://api.nuget.org/v3/index.json](https://api.nuget.org/v3/index.json). The libraries offer a framework of classes that make client development easier.
+The sample described in this section makes use of the CONNECT data services Client Libraries. When working in .NET, it is recommended that you use the Cds Client Libraries metapackage, OSIsoft.OCSClients. The metapackage is a NuGet package available from [https://api.nuget.org/v3/index.json](https://api.nuget.org/v3/index.json). The libraries offer a framework of classes that make client development easier.
 
-[SDS documentation](https://ocs-docs.osisoft.com/Content_Portal/Documentation/SequentialDataStore/Data_Store_and_SDS.html)
+[SDS documentation](https://docs.aveva.com/bundle/data-hub/page/developer-guide/sequential-data-store-dev/sds-lp-dev.html)
 
 Developed against DotNet 6.0.
 
@@ -34,7 +34,7 @@ dotnet test
 
 The sample is configured using the file [appsettings.placeholder.json](SdsClientLibraries/appsettings.placeholder.json). Before editing, rename this file to `appsettings.json`. This repository's `.gitignore` rules should prevent the file from ever being checked in to any fork or branch, to ensure credentials are not compromised.
 
-The SDS Service is secured by obtaining tokens from Azure Active Directory. Such clients provide a client Id and an associated secret (or key) that are authenticated against the directory. You must replace the placeholders in your `appsettings.json` file with the authentication-related values you received from ADH.
+The SDS Service is secured by obtaining tokens from Azure Active Directory. Such clients provide a client Id and an associated secret (or key) that are authenticated against the directory. You must replace the placeholders in your `appsettings.json` file with the authentication-related values you received from Cds.
 
 ```json
 {
@@ -330,7 +330,7 @@ await metadataService.DeleteTypeAsync(typeId);
 
 Tested against DotNet 6.0.
 
-For the main ADH DotNet waveform samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM_DOTNET.md)  
-For the main ADH waveform samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_WAVEFORM.md)  
-For the main ADH samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS)  
-For the main AVEVA samples page [ReadMe](https://github.com/osisoft/OSI-Samples)
+For the main Cds DotNet waveform samples page [ReadMe](https://github.com/AVEVA/AVEVA-Samples-CloudOperations/blob/main/docs/SDS_WAVEFORM_DOTNET.md)  
+For the main Cds waveform samples page [ReadMe](https://github.com/AVEVA/AVEVA-Samples-CloudOperations/blob/main/docs/SDS_WAVEFORM.md)  
+For the main Cds samples page [ReadMe](https://github.com/AVEVA/AVEVA-Samples-CloudOperations)  
+For the main AVEVA samples page [ReadMe](https://github.com/AVEVA/AVEVA-Samples)
